@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ការប្រឡងប្រចាំខែតុលា - មុខវិជ្ជា ព័ត៌មានវិទ្យា (ICT) ថ្នាក់ទី១០</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&family=Noto+Sans+Khmer:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  body{font-family:'Kantumruy Pro','Noto Sans Khmer',sans-serif;background:#f1f5f9;-webkit-user-select:none;user-select:none}
+  /* FIX: Safari blocks typing in inputs when user-select is none */
+  input{-webkit-user-select:text;user-select:text}
+  .sr-only-radio{position:absolute;opacity:0;width:1px;height:1px}
+  .custom-radio input:checked + label{border-color:#4f46e5;background:#eef2ff;color:#3730a3}
+  .custom-radio input:checked + label .letter{background:#4f46e5;border-color:#4f46e5;color:#fff}
+  .custom-radio input:focus-visible + label{outline:2px solid #4f46e5;outline-offset:2px}
+  .hidden{display:none!important}
+  @media print{.no-print{display:none!important}body{background:#fff}}
+</style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col justify-between">
+
+<header class="bg-indigo-900 text-white shadow-xl sticky top-0 z-40 no-print">
+  <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-2">
+    <div class="flex items-center gap-3">
+      <div class="bg-indigo-700 p-2.5 rounded-xl border border-indigo-500/50 text-xl">🖥</div>
+      <div>
+        <h1 class="text-base md:text-lg font-bold leading-tight">ការប្រឡងប្រចាំខែតុលា - ព័ត៌មានវិទ្យា (ICT)</h1>
+        <p class="text-xs text-indigo-200">ថ្នាក់ទី១០ | មេរៀន៖ មូលដ្ឋានគ្រឹះវិទ្យាសាស្ត្រកុំព្យូទ័រ</p>
+      </div>
+    </div>
+    <div id="timer-box" class="bg-indigo-950 border border-indigo-700 px-4 py-2 rounded-xl flex items-center gap-2">
+      <span>⏱</span>
+      <span class="text-xs text-indigo-200">រយៈពេលនៅសល់៖</span>
+      <span id="timer" class="font-mono text-lg font-bold text-amber-300">30:00</span>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-4xl mx-auto px-4 py-6 flex-grow w-full">
+
+  <div id="student-info-card" class="bg-white rounded-2xl shadow-md p-6 mb-6 border-t-4 border-indigo-600">
+    <h2 class="text-base font-bold mb-4 flex items-center">
+      <span class="bg-indigo-100 text-indigo-800 w-8 h-8 rounded-full flex items-center justify-center mr-2 text-sm font-bold">1</span>
+      ព័ត៌មានសិស្ស (Student Information)
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div>
+        <label for="student-name" class="block text-sm font-semibold mb-1">គោត្តនាម និង នាម <span class="text-rose-500">*</span></label>
+        <input type="text" id="student-name" placeholder="ឧ. ចាន់ សុភ័ក្ត្រ" class="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
+      </div>
+      <div>
+        <label for="student-class" class="block text-sm font-semibold mb-1">ថ្នាក់ / បន្ទប់ <span class="text-rose-500">*</span></label>
+        <input type="text" id="student-class" placeholder="ឧ. ១០A" class="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
+      </div>
+      <div>
+        <label for="student-id" class="block text-sm font-semibold mb-1">អត្តលេខ / លេខតុ <span class="text-rose-500">*</span></label>
+        <input type="text" id="student-id" placeholder="ឧ. 10025" class="w-full px-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
+      </div>
+    </div>
+  </div>
+
+  <div id="instructions" class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-xl mb-6 shadow-sm text-sm text-amber-800 leading-relaxed">
+    <strong>ការណែនាំ៖</strong> ប្រឡងនេះមាន ១០ សំណួរជ្រើសរើសចម្លើយត្រឹមត្រូវ។ សូមអានសំណួរនីមួយៗឲ្យបានច្បាស់លាស់ រួចជ្រើសរើសចម្លើយដែលត្រឹមត្រូវបំផុតតែមួយគត់។ ប្រព័ន្ធនឹងគណនាពិន្ទុស្វ័យប្រវត្តិនៅពេលចុចបញ្ជូន ឬអស់វេលា។
+  </div>
+
+  <!-- FIX: novalidate, because hidden required radios blocked submit -->
+  <form id="quiz-form" novalidate onsubmit="return false">
+    <div id="questions-container" class="space-y-6"></div>
+    <div class="mt-8 mb-12 text-center">
+      <button type="button" onclick="submitQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-10 py-3.5 rounded-2xl shadow-lg hover:shadow-xl transition text-base">
+        បញ្ជូនកិច្ចការប្រឡង (Submit Exam)
+      </button>
+    </div>
+  </form>
+
+  <div id="result-card" class="hidden bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-8 border-t-4 border-emerald-500">
+    <div class="text-center pb-6 border-b border-slate-200">
+      <div id="status-icon" class="w-20 h-20 mx-auto mb-3 rounded-full flex items-center justify-center text-4xl font-bold"></div>
+      <h2 class="text-2xl font-bold mb-1">លទ្ធផលនៃការប្រឡង</h2>
+      <p class="text-slate-500 text-sm">ប្រឡងប្រចាំខែតុលា - ព័ត៌មានវិទ្យា (ICT) ថ្នាក់ទី១០</p>
+    </div>
+
+    <div class="my-6 bg-slate-50 p-4 rounded-xl grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+      <div><span class="text-slate-500 text-xs block">ឈ្មោះសិស្ស</span><span id="res-student-name" class="font-bold"></span></div>
+      <div><span class="text-slate-500 text-xs block">ថ្នាក់ / អត្តលេខ</span><span id="res-student-class" class="font-bold"></span></div>
+      <div><span class="text-slate-500 text-xs block">កាលបរិច្ឆេទ</span><span id="res-date" class="font-bold"></span></div>
+    </div>
+
+    <div class="flex flex-col md:flex-row justify-center items-center gap-6 my-6 p-6 bg-indigo-50 rounded-2xl border border-indigo-100">
+      <div class="text-center">
+        <div class="text-xs text-indigo-600 font-semibold mb-1">ពិន្ទុសរុប</div>
+        <div class="text-4xl md:text-5xl font-extrabold text-indigo-900"><span id="score-text">0</span> / <span id="max-score-text">10</span></div>
+      </div>
+      <div class="h-12 w-px bg-indigo-200 hidden md:block"></div>
+      <div class="text-center">
+        <div class="text-xs text-indigo-600 font-semibold mb-1">ភាគរយ (Percentage)</div>
+        <div id="percentage-text" class="text-4xl md:text-5xl font-extrabold text-indigo-700">0%</div>
+      </div>
+      <div class="h-12 w-px bg-indigo-200 hidden md:block"></div>
+      <div class="text-center">
+        <div class="text-xs text-indigo-600 font-semibold mb-1">លទ្ធផលចុងក្រោយ</div>
+        <div id="pass-fail-badge" class="inline-block px-4 py-1.5 rounded-full font-bold text-sm mt-1"></div>
+      </div>
+    </div>
+
+    <h3 class="text-lg font-bold mt-8 mb-4">📋 ការពិនិត្យចម្លើយលម្អិត និងការពន្យល់ (Answer Review)</h3>
+    <div id="review-container" class="space-y-4"></div>
+
+    <div class="mt-8 text-center no-print">
+      <button onclick="window.print()" class="bg-slate-800 hover:bg-black text-white font-semibold px-6 py-2.5 rounded-xl transition">
+        🖨 បោះពុម្ព / រក្សាទុកជា PDF (Print Results)
+      </button>
+    </div>
+  </div>
+</main>
+
+<footer class="bg-slate-800 text-slate-400 py-4 text-center text-xs no-print">
+  <p>© ២០២៦ ប្រព័ន្ធប្រឡងព័ត៌មានវិទ្យា - ថ្នាក់ទី១០ | Safe Exam Browser Compatible</p>
+</footer>
+
+<div id="custom-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 px-4">
+  <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center shadow-2xl">
+    <div id="modal-icon" class="mx-auto flex items-center justify-center h-12 w-12 rounded-full mb-4 text-2xl"></div>
+    <h3 id="modal-title" class="text-lg font-bold mb-2"></h3>
+    <p id="modal-message" class="text-sm text-slate-600 mb-6"></p>
+    <button onclick="closeModal()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-xl text-sm transition">យល់ព្រម (OK)</button>
+  </div>
+</div>
+
+<script>
+const quizData = [
+  { id:1, question:"ហេតុអ្វីបានជាកុំព្យូទ័រប្រើប្រាស់ប្រព័ន្ធលេខគោលពីរ (Binary System)?",
+    options:["ព្រោះកុំព្យូទ័រដើរដោយថាមពលអគ្គិសនី ហើយស្គាល់តែ ២ ស្ថានភាពគឺ វ៉ុលទាប (0) និងវ៉ុលខ្ពស់ (1)","ព្រោះលេខគោលពីរងាយស្រួលអានជាងលេខគោលដប់សម្រាប់មនុស្ស","ព្រោះកុំព្យូទ័រមិនអាចគណនាលេខដែលមានតម្លៃធំជាង ៩ បានឡើយ","ព្រោះប្រព័ន្ធលេខគោលពីរជួយកាត់បន្ថយទំហំផ្ទុកឌីសអុបទិក"],
+    answer:0, explanation:"យោងតាមមេរៀន កុំព្យូទ័រប្រើប្រាស់អគ្គិសនី ដូច្នេះវាស្គាល់តែ ២ ស្ថានភាពប៉ុណ្ណោះ គឺវ៉ុលទាបតំណាងដោយ '0' និងវ៉ុលខ្ពស់តំណាងដោយ '1' ហើយពាក្យ Bit មកពី 'binary digit'។" },
+  { id:2, question:"តើលេខគោលពីរ 1101 មានតម្លៃស្មើនឹងប៉ុន្មានក្នុងប្រព័ន្ធលេខគោលដប់ (Decimal)?",
+    options:["១១ (11)","១៣ (13)","១៥ (15)","៩ (9)"],
+    answer:1, explanation:"ការបម្លែង៖ (1 × 2³) + (1 × 2²) + (0 × 2¹) + (1 × 2⁰) = 8 + 4 + 0 + 1 = 13 (ដូចមានបង្ហាញក្នុងលំហាត់ Hands-on នៃមេរៀន)។" },
+  { id:3, question:"នៅក្នុងប្រព័ន្ធលេខគោលដប់ប្រាំមួយ (Hexadecimal) តើនិមិត្តសញ្ញា 'C' និង 'F' មានតម្លៃស្មើនឹងប៉ុន្មានក្នុងលេខគោលដប់?",
+    options:["C = 10, F = 15","C = 12, F = 15","C = 11, F = 14","C = 12, F = 16"],
+    answer:1, explanation:"ក្នុងប្រព័ន្ធ Hexadecimal មាន ១៦ និមិត្តសញ្ញា (0-9 និង A-F) ដោយ A=10, B=11, C=12, D=13, E=14, F=15។" },
+  { id:4, question:"តើម៉ូឌែល RGB តំណាងឲ្យពណ៌អ្វីខ្លះក្នុងការបង្ហាញរូបភាពនៅលើកុំព្យូទ័រ ហើយមានតម្លៃចាប់ពីប៉ុន្មានទៅប៉ុន្មាន?",
+    options:["Red, Green, Blue មានតម្លៃពី 0 ដល់ 255","Red, Green, Black មានតម្លៃពី 1 ដល់ 100","Rose, Gold, Blue មានតម្លៃពី 0 ដល់ 1024","Red, Gray, Blue មានតម្លៃពី 0 ដល់ 16"],
+    answer:0, explanation:"RGB មកពី ក្រហម (Red) + បៃតង (Green) + ខៀវ (Blue) ដោយធាតុនីមួយៗមានតម្លៃចន្លោះពី 0 ដល់ 255 (ឧ. ពណ៌ស R=255, G=255, B=255)។" },
+  { id:5, question:"តើច្រកតក្កវិជ្ជា (Logic Gate) មួយណាដែលផ្តល់លទ្ធផលចេញ '1' លុះត្រាតែសញ្ញាចូល (Inputs) ទាំងពីរមានតម្លៃ '1' ដូចគ្នា?",
+    options:["OR Gate","NOT Gate","AND Gate","XOR Gate"],
+    answer:2, explanation:"យោងតាមតារាងសច្ចភាព (Truth Table) ច្រក AND ផ្តល់ផល '1' លុះត្រាតែ A=1 និង B=1 ទាំងពីរ។" },
+  { id:6, question:"តើអ្វីទៅជា 'សៀគ្វីរួម' (Integrated Circuit / Chip)?",
+    options:["ជាខ្សែភ្ជាប់សម្រាប់បញ្ជូនទិន្នន័យរវាង CPU និង Hard Disk","ជាសំណុំសៀគ្វីអេឡិចត្រូនិក និងត្រង់ស៊ីស្ទ័រជាច្រើនក្នុងកញ្ចប់តែមួយ មានទំហំតូច ស៊ីភ្លើងតិច និងលឿនខ្លាំង","ជាប្រភេទអង្គចងចាំដែលបាត់បង់ទិន្នន័យនៅពេលបិទភ្លើង","ជាកម្មវិធីប្រព័ន្ធប្រតិបត្តិការសម្រាប់គ្រប់គ្រង Hardware"],
+    answer:1, explanation:"សៀគ្វីរួម (IC) គឺជាសំណុំសៀគ្វីអេឡិចត្រូនិកដែលផ្ទុកត្រង់ស៊ីស្ទ័ររាប់លានទៅរាប់ពាន់លានក្នុងកញ្ចប់តូចមួយ (Chip)។" },
+  { id:7, question:"យោងតាមស្ថាបត្យកម្មកុំព្យូទ័រ Von Neumann តើកុំព្យូទ័រធ្វើសកម្មភាពគោល ៣ អ្វីខ្លះ?",
+    options:["បោះពុម្ព, គូររូប, និងផ្ញើអ៊ីមែល","រក្សាទុក (Store), ទាញយក (Retrieve), និងដំណើរការ (Process) ទិន្នន័យ","បញ្ចូលទិន្នន័យ, បង្ហាញរូបភាព, និងចាក់ចម្រៀង","បម្លែងលេខគោលពីរ, បង្ហាប់វីដេអូ, និងស្កេនមេរោគ"],
+    answer:1, explanation:"ស្ថាបត្យកម្ម Von Neumann កំណត់ថាកុំព្យូទ័រធ្វើសកម្មភាពគោល ៣ គឺ៖ រក្សាទុក ទាញយក និងដំណើរការទិន្នន័យ។" },
+  { id:8, question:"តើលំដាប់លំដោយត្រឹមត្រូវនៃវដ្ត Fetch-Execute របស់ CPU គឺដូចម្តេច?",
+    options:["① Decode → ② Fetch → ③ Store → ④ Execute","① Fetch → ② Decode → ③ Execute → ④ Store","① Execute → ② Decode → ③ Fetch → ④ Store","① Store → ② Fetch → ③ Execute → ④ Decode"],
+    answer:1, explanation:"វដ្ត Fetch-Execute មាន ៤ ជំហានតាមលំដាប់៖ ① Fetch (ទាញបញ្ជា) → ② Decode (បកស្រាយ) → ③ Execute (អនុវត្ត) → ④ Store (រក្សាលទ្ធផល)។" },
+  { id:9, question:"តើលក្ខណៈខុសគ្នាសំខាន់រវាង RAM និង ROM គឺជាអ្វី?",
+    options:["RAM បាត់បង់ទិន្នន័យពេលបិទភ្លើង (Volatile) រីឯ ROM មិនបាត់បង់ទិន្នន័យឡើយ (Non-volatile)","RAM មានល្បឿនយឺតជាង Hard Disk រីឯ ROM មានល្បឿនលឿនជាងគេ","RAM ប្រើសម្រាប់ផ្ទុក Firmware ចាប់ផ្តើមកុំព្យូទ័រ រីឯ ROM ប្រើសម្រាប់ Run កម្មវិធី","RAM និង ROM គ្មានអ្វីខុសគ្នាទេ"],
+    answer:0, explanation:"RAM ជាអង្គចងចាំបណ្តោះអាសន្នដែលបាត់ទិន្នន័យពេលអស់ភ្លើង (Volatile) ចំណែក ROM (Read Only Memory) រក្សាទិន្នន័យ/Firmware ជាប់ជានិច្ចទោះបិទភ្លើងក៏ដោយ។" },
+  { id:10, question:"តើ 'វីដេអូ' (Video) ជាប្រភេទទិន្នន័យបែបណា ហើយហេតុអ្វីបានជាវាតែងត្រូវបានបង្ហាប់ (Compress)?",
+    options:["ជាប្រភេទទិន្នន័យស្មុគស្មាញបំផុត គឺជាស៊េរីរូបភាពចាក់បន្តបន្ទាប់ ហើយតែងត្រូវបានបង្ហាប់ ដើម្បីសន្សំទីតាំងផ្ទុក","ជាប្រភេទទិន្នន័យសាមញ្ញបំផុត ដែលមានតែអក្សរ និងលេខ ដូច្នេះមិនចាំបាច់បង្ហាប់ទេ","ជារូបភាពឋិតិវន្តតែមួយសន្លឹក ដែលរក្សាទុកក្នុងទម្រង់ RGB ហើយបង្ហាប់ដើម្បីបង្កើនពណ៌","ជាសំឡេងសុទ្ធដែលបម្លែងទៅជាលេខគោលដប់ប្រាំមួយ ដើម្បីបង្កើនល្បឿនអ៊ីនធឺណិត"],
+    answer:0, explanation:"យោងតាមមេរៀន វីដេអូជាប្រភេទទិន្នន័យស្មុគស្មាញបំផុត ព្រោះវាជាស៊េរីរូបភាពចាក់បន្តបន្ទាប់ ហើយតែងត្រូវបានបង្ហាប់ (Compress) ដើម្បីសន្សំទីតាំងផ្ទុក។" }
+];
+
+
+// ===== Safe Exam Browser gate =====
+const REQUIRE_SEB = true;               // set false to disable the check
+let examStarted = false;
+
+function checkSEB(){
+  const inSEB = /SEB/i.test(navigator.userAgent);
+  const testMode = new URLSearchParams(location.search).get('test') === '1'; // teacher preview: ?test=1
+  if(!REQUIRE_SEB || inSEB || testMode) return true;
+
+  const web = /^https?:$/.test(location.protocol);
+  const sebUrl = web ? location.href.replace(/^http/, 'seb') : '';   // https -> sebs, http -> seb
+  ['header','main','footer'].forEach(t => { const el = document.querySelector(t); if(el) el.style.display = 'none'; });
+
+  const box = document.createElement('div');
+  box.style.cssText = 'position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#f1f5f9;padding:16px;z-index:9999;font-family:inherit';
+  box.innerHTML = `
+    <div style="max-width:440px;background:#fff;border-radius:16px;padding:28px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.15)">
+      <div style="font-size:44px">🔒</div>
+      <h2 style="font-size:20px;font-weight:700;margin:8px 0">សូមបើកការប្រឡងនេះក្នុង Safe Exam Browser</h2>
+      <p style="font-size:14px;color:#475569;line-height:1.7;margin-bottom:16px">
+        ${web ? 'កំពុងបើក Safe Exam Browser ដោយស្វ័យប្រវត្តិ... ប្រសិនបើមិនបើកទេ សូមចុចប៊ូតុងខាងក្រោម។ (ត្រូវដំឡើង Safe Exam Browser ជាមុន)'
+              : 'ឯកសារនេះត្រូវបានបើកពីកុំព្យូទ័រផ្ទាល់ (file) ។ សូមបង្ហោះវាលើគេហទំព័រជាមុន ឬបើកតាមឯកសារ .seb។'}
+      </p>
+      ${web ? `<a href="${sebUrl}" style="display:inline-block;background:#4f46e5;color:#fff;font-weight:700;padding:12px 28px;border-radius:12px;text-decoration:none">បើក Safe Exam Browser</a>` : ''}
+    </div>`;
+  document.body.appendChild(box);
+  if(web) setTimeout(() => { location.href = sebUrl; }, 800);
+  return false;
+}
+
+const EXAM_MINUTES = 30;
+let endTime = 0, timerInterval = null, submitted = false;
+
+// Shuffle options per student (value stays the ORIGINAL index, so scoring stays correct)
+function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+quizData.forEach(q => q.order = shuffle(q.options.map((_, i) => i)));
+
+window.onload = function(){
+  if(!checkSEB()) return;
+  examStarted = true;
+  renderQuestions();
+  endTime = Date.now() + EXAM_MINUTES * 60 * 1000;
+  startTimer();
+};
+window.addEventListener('beforeunload', e => { if(examStarted && !submitted){ e.preventDefault(); e.returnValue=''; } });
+
+function renderQuestions(){
+  const container = document.getElementById('questions-container');
+  container.innerHTML = '';
+  quizData.forEach((q, index) => {
+    const card = document.createElement('div');
+    card.id = 'qcard_' + q.id;
+    card.className = 'bg-white rounded-2xl shadow-md p-6 border border-slate-100';
+    let opts = '';
+    q.order.forEach((origIdx, pos) => {
+      opts += `
+        <div class="custom-radio relative">
+          <input type="radio" class="sr-only-radio" id="q${q.id}_opt${origIdx}" name="question_${q.id}" value="${origIdx}">
+          <label for="q${q.id}_opt${origIdx}" class="flex items-center p-3.5 border-2 border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition text-sm text-slate-700 leading-relaxed">
+            <span class="letter w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center mr-3 flex-shrink-0 text-xs font-bold text-slate-500">${String.fromCharCode(65 + pos)}</span>
+            <span>${q.options[origIdx]}</span>
+          </label>
+        </div>`;
+    });
+    card.innerHTML = `
+      <div class="flex items-start mb-4">
+        <span class="bg-indigo-600 text-white font-bold text-xs px-3 py-1.5 rounded-lg mr-3 mt-0.5 whitespace-nowrap">សំណួរទី ${index + 1}</span>
+        <h3 class="text-base font-bold leading-snug">${q.question}</h3>
+      </div>
+      <div class="grid grid-cols-1 gap-2.5">${opts}</div>`;
+    container.appendChild(card);
+  });
+}
+
+function startTimer(){
+  const el = document.getElementById('timer');
+  const tick = () => {
+    const left = Math.max(0, Math.round((endTime - Date.now()) / 1000));
+    el.textContent = String(Math.floor(left/60)).padStart(2,'0') + ':' + String(left%60).padStart(2,'0');
+    if(left < 300){ el.classList.add('text-rose-400'); el.classList.remove('text-amber-300'); }
+    if(left <= 0){
+      clearInterval(timerInterval);
+      if(!submitted){
+        calculateAndDisplayResults();
+        showCustomModal('អស់ពេលវេលា!', 'ពេលវេលាប្រឡងត្រូវបានបញ្ចប់។ ប្រព័ន្ធបានបញ្ជូនចម្លើយរបស់អ្នកដោយស្វ័យប្រវត្តិ។', 'error');
+      }
+    }
+  };
+  tick();
+  timerInterval = setInterval(tick, 1000);
+}
+
+function submitQuiz(){
+  try{ submitQuizInner(); }
+  catch(err){ console.error(err); showCustomModal('មានបញ្ហា!', 'បញ្ហាបច្ចេកទេស៖ ' + err.message, 'warning'); }
+}
+function submitQuizInner(){
+  if(submitted) return;
+
+  for(const id of ['student-name','student-class','student-id']){
+    const input = document.getElementById(id);
+    if(!input.value.trim()){
+      showCustomModal('សូមបំពេញព័ត៌មាន!', 'សូមបំពេញឈ្មោះ ថ្នាក់ និងអត្តលេខសិស្ស ឲ្យបានគ្រប់ជ្រុងជ្រោយមុននឹងបញ្ជូន។', 'warning');
+      input.scrollIntoView({behavior:'smooth', block:'center'});
+      return;
+    }
+  }
+
+  const firstMissing = quizData.find(q => !document.querySelector(`input[name="question_${q.id}"]:checked`));
+  if(firstMissing){
+    showCustomModal('ចម្លើយមិនទាន់គ្រប់!', `សូមឆ្លើយសំណួរទាំងអស់ឲ្យបានសព្វគ្រប់មុននឹងបញ្ជូនកិច្ចការ។ (មិនទាន់ឆ្លើយ៖ សំណួរទី ${firstMissing.id})`, 'warning');
+    document.getElementById('qcard_' + firstMissing.id).scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+
+  calculateAndDisplayResults();
+}
+
+function calculateAndDisplayResults(){
+  if(submitted) return;
+  clearInterval(timerInterval);
+
+  const name = document.getElementById('student-name').value.trim() || 'មិនបានបំពេញ';
+  const sClass = document.getElementById('student-class').value.trim() || 'N/A';
+  const sid = document.getElementById('student-id').value.trim() || 'N/A';
+
+  let score = 0;
+  const review = document.getElementById('review-container');
+  review.innerHTML = '';
+
+  quizData.forEach((q, index) => {
+    const sel = document.querySelector(`input[name="question_${q.id}"]:checked`);
+    const userAnswer = sel ? parseInt(sel.value, 10) : -1;
+    const isCorrect = userAnswer === q.answer;
+    if(isCorrect) score++;
+
+    let optsHTML = '';
+    q.order.forEach((origIdx, pos) => {
+      let badge = '', textStyle = 'text-slate-700', bg = '';
+      if(origIdx === q.answer){
+        badge = '<span class="ml-auto text-xs bg-emerald-600 text-white font-bold px-2 py-0.5 rounded whitespace-nowrap">ចម្លើយត្រឹមត្រូវ</span>';
+        textStyle = 'text-emerald-800 font-bold'; bg = 'bg-emerald-100';
+      } else if(origIdx === userAnswer){
+        badge = '<span class="ml-auto text-xs bg-rose-600 text-white font-bold px-2 py-0.5 rounded whitespace-nowrap">ចម្លើយរបស់អ្នក</span>';
+        textStyle = 'text-rose-800 line-through'; bg = 'bg-rose-100';
+      }
+      optsHTML += `
+        <div class="flex items-center gap-2 py-1.5 px-3 rounded-lg text-sm ${bg}">
+          <span class="font-bold text-xs">${String.fromCharCode(65 + pos)}.</span>
+          <span class="${textStyle}">${q.options[origIdx]}</span>${badge}
+        </div>`;
+    });
+
+    const card = document.createElement('div');
+    card.className = `p-4 rounded-xl border ${isCorrect ? 'bg-emerald-50 border-emerald-200' : 'bg-rose-50 border-rose-200'}`;
+    card.innerHTML = `
+      <div class="flex items-start justify-between gap-2 mb-2">
+        <h4 class="font-bold text-sm">សំណួរទី ${index + 1}៖ ${q.question}</h4>
+        <span class="px-2.5 py-0.5 rounded-full text-xs font-bold whitespace-nowrap ${isCorrect ? 'bg-emerald-200 text-emerald-800' : 'bg-rose-200 text-rose-800'}">${isCorrect ? '+១ ពិន្ទុ' : '០ ពិន្ទុ'}</span>
+      </div>
+      ${userAnswer === -1 ? '<p class="text-xs text-rose-600 font-semibold mb-2">មិនបានឆ្លើយ</p>' : ''}
+      <div class="space-y-1 mb-3">${optsHTML}</div>
+      <div class="text-xs text-slate-600 bg-white p-2.5 rounded-lg border border-slate-200"><strong>💡 ការពន្យល់៖</strong> ${q.explanation}</div>`;
+    review.appendChild(card);
+  });
+
+  document.getElementById('res-student-name').textContent = name;
+  document.getElementById('res-student-class').textContent = `${sClass} (${sid})`;
+
+  const now = new Date();
+  let dateStr;
+  try{ dateStr = now.toLocaleDateString('km-KH') + ' ' + now.toLocaleTimeString('km-KH',{hour:'2-digit',minute:'2-digit'}); }
+  catch(_){ dateStr = now.toLocaleString(); }
+  document.getElementById('res-date').textContent = dateStr;
+
+  const max = quizData.length;
+  const pct = Math.round((score / max) * 100);
+  document.getElementById('score-text').textContent = score;
+  document.getElementById('max-score-text').textContent = max;
+  document.getElementById('percentage-text').textContent = pct + '%';
+
+  const icon = document.getElementById('status-icon');
+  const badge = document.getElementById('pass-fail-badge');
+  if(pct >= 50){
+    icon.className = 'w-20 h-20 mx-auto mb-3 rounded-full flex items-center justify-center text-4xl font-bold bg-emerald-100 text-emerald-600';
+    icon.textContent = '✓';
+    badge.className = 'inline-block px-4 py-1.5 rounded-full font-bold text-sm mt-1 bg-emerald-100 text-emerald-800 border border-emerald-300';
+    badge.textContent = 'ជាប់ (PASSED)';
+  } else {
+    icon.className = 'w-20 h-20 mx-auto mb-3 rounded-full flex items-center justify-center text-4xl font-bold bg-rose-100 text-rose-600';
+    icon.textContent = '✕';
+    badge.className = 'inline-block px-4 py-1.5 rounded-full font-bold text-sm mt-1 bg-rose-100 text-rose-800 border border-rose-300';
+    badge.textContent = 'ធ្លាក់ (FAILED)';
+  }
+
+  ['quiz-form','student-info-card','timer-box','instructions'].forEach(id => document.getElementById(id).classList.add('hidden'));
+  document.getElementById('result-card').classList.remove('hidden');
+  submitted = true;
+  window.scrollTo(0, 0);
+}
+
+function showCustomModal(title, message, type = 'info'){
+  const styles = {
+    warning:['bg-amber-100 text-amber-600','⚠'],
+    error:['bg-rose-100 text-rose-600','⏰'],
+    info:['bg-indigo-100 text-indigo-600','ℹ']
+  };
+  const [cls, ico] = styles[type] || styles.info;
+  const icon = document.getElementById('modal-icon');
+  icon.className = 'mx-auto flex items-center justify-center h-12 w-12 rounded-full mb-4 text-2xl ' + cls;
+  icon.textContent = ico;
+  document.getElementById('modal-title').textContent = title;
+  document.getElementById('modal-message').textContent = message;
+  const modal = document.getElementById('custom-modal');
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+}
+function closeModal(){
+  const modal = document.getElementById('custom-modal');
+  modal.classList.add('hidden');
+  modal.classList.remove('flex');
+}
+</script>
+</body>
+</html>
